@@ -1,11 +1,16 @@
 // Importazione delle dipendenze necessarie
 import React, { useState } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Text } from 'react-native';
 import ArtistsPage from './ArtistsPage';
 import AlbumsPage from './AlbumsPage';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { theme } from '../styles/theme';
 
 const Tab = createBottomTabNavigator();
+
+const IconComponent = ({ name, color }: { name: string; color: string }) => {
+  return <Text style={{ color, fontSize: 24 }}>{name === 'person' ? '👤' : '💿'}</Text>;
+};
 
 const Dashboard = () => {
   const [timeRange, setTimeRange] = useState('medium_term');
@@ -13,19 +18,20 @@ const Dashboard = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => {
-          let iconName;
-
-          if (route.name === 'Artisti') {
-            iconName = focused ? 'person' : 'person-outline';
-          } else if (route.name === 'Album') {
-            iconName = focused ? 'disc' : 'disc-outline';
-          }
-
-          return <Icon name={iconName} size={size} color={color} />;
+        tabBarIcon: ({ focused, color }) => {
+          let iconName = route.name === 'Artisti' ? 'person' : 'disc';
+          return <IconComponent name={iconName} color={color} />;
         },
-        tabBarActiveTintColor: '#1DB954',
-        tabBarInactiveTintColor: 'gray',
+        tabBarActiveTintColor: theme.colors.primary,
+        tabBarInactiveTintColor: theme.colors.secondary,
+        tabBarStyle: {
+          backgroundColor: theme.colors.card,
+          borderTopColor: theme.colors.card,
+        },
+        headerStyle: {
+          backgroundColor: theme.colors.background,
+        },
+        headerTintColor: theme.colors.text,
       })}
     >
       <Tab.Screen name="Artisti">

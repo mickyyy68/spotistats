@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, FlatList } from 'react-native';
 import { getTopAlbums } from '../api/spotifyApi';
 import AlbumCard from '../components/AlbumCard';
 import TimeRangeSelector from '../components/TimeRangeSelector';
+import { theme } from '../styles/theme';
 
 interface Album {
     id: string;
@@ -63,20 +64,23 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    backgroundColor: theme.colors.background,
   },
   title: {
-    fontSize: 24,
+    fontSize: theme.fontSizes.xlarge,
     fontWeight: 'bold',
     marginBottom: 20,
     textAlign: 'center',
+    color: theme.colors.text,
   },
   row: {
     justifyContent: 'space-between',
   },
   loadingText: {
-    fontSize: 18,
+    fontSize: theme.fontSizes.medium,
     textAlign: 'center',
     marginTop: 20,
+    color: theme.colors.text,
   },
 });
 

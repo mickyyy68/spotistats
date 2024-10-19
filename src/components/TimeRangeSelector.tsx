@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { theme } from '../styles/theme';
 
 
 interface TimeRangeSelectorProps {
@@ -39,18 +40,18 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   button: {
-    backgroundColor: '#1DB954',
+    backgroundColor: theme.colors.secondary,
     padding: 10,
     borderRadius: 5,
     flex: 1,
     marginHorizontal: 5,
   },
   activeButton: {
-    backgroundColor: '#168d40',
+    backgroundColor: theme.colors.primary,
   },
   buttonText: {
-    color: 'white',
-    fontSize: 12,
+    color: theme.colors.text,
+    fontSize: theme.fontSizes.small,
     fontWeight: 'bold',
     textAlign: 'center',
   },
