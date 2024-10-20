@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Dimensions } from 'react-native';
+// Rimuoviamo l'importazione di Ionicons
 import { getTopAlbums } from '../api/spotifyApi';
 import AlbumCard from '../components/AlbumCard';
 import TimeRangeSelector from '../components/TimeRangeSelector';
@@ -60,7 +61,24 @@ const AlbumsPage: React.FC<AlbumsPageProps> = ({ timeRange, setTimeRange }) => {
     setNumColumns(columns);
   };
 
-  const renderGridButton = (columns: number, label: string) => (
+  // Creiamo un componente personalizzato per l'icona della griglia
+  const GridIcon = ({ columns, isSelected }: { columns: number, isSelected: boolean }) => (
+    <View style={{ flexDirection: 'row', flexWrap: 'wrap', width: 24, height: 24 }}>
+      {[...Array(columns * columns)].map((_, index) => (
+        <View
+          key={index}
+          style={{
+            width: columns === 2 ? 10 : 5,
+            height: columns === 2 ? 10 : 5,
+            margin: columns === 2 ? 1 : 0.5,
+            backgroundColor: isSelected ? 'white' : theme.colors.text,
+          }}
+        />
+      ))}
+    </View>
+  );
+
+  const renderGridButton = (columns: number) => (
     <TouchableOpacity
       style={[
         styles.gridButton,
@@ -68,12 +86,7 @@ const AlbumsPage: React.FC<AlbumsPageProps> = ({ timeRange, setTimeRange }) => {
       ]}
       onPress={() => changeGridLayout(columns)}
     >
-      <Text style={[
-        styles.gridButtonText,
-        numColumns === columns ? styles.selectedGridButtonText : styles.unselectedGridButtonText
-      ]}>
-        {label}
-      </Text>
+      <GridIcon columns={columns} isSelected={numColumns === columns} />
     </TouchableOpacity>
   );
 
@@ -82,8 +95,8 @@ const AlbumsPage: React.FC<AlbumsPageProps> = ({ timeRange, setTimeRange }) => {
       <Text style={styles.title}>I tuoi migliori album</Text>
       <TimeRangeSelector onSelectTimeRange={setTimeRange} selectedTimeRange={timeRange} />
       <View style={styles.gridButtons}>
-        {renderGridButton(2, '2 per riga')}
-        {renderGridButton(4, '4 per riga')}
+        {renderGridButton(2)}
+        {renderGridButton(4)}
       </View>
       {loading ? (
         <Text style={styles.loadingText}>Caricamento...</Text>
@@ -132,24 +145,18 @@ const styles = StyleSheet.create({
   gridButton: {
     padding: 10,
     borderRadius: 5,
-    width: '45%',
+    width: 50,
+    height: 50,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   selectedGridButton: {
     backgroundColor: theme.colors.primary,
   },
   unselectedGridButton: {
-    backgroundColor: 'black',
-  },
-  gridButtonText: {
-    fontSize: theme.fontSizes.small,
-  },
-  selectedGridButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
-  },
-  unselectedGridButtonText: {
-    color: 'white',
+    backgroundColor: 'transparent',
+    borderWidth: 1,
+    borderColor: theme.colors.text,
   },
   listContainer: {
     paddingHorizontal: 8,
