@@ -5,11 +5,12 @@ import { Text } from 'react-native';
 import ArtistsPage from './ArtistsPage';
 import AlbumsPage from './AlbumsPage';
 import { theme } from '../styles/theme';
+import GenresPage from './GenresPage';
 
 const Tab = createBottomTabNavigator();
 
 const IconComponent = ({ name, color }: { name: string; color: string }) => {
-  return <Text style={{ color, fontSize: 24 }}>{name === 'person' ? '👤' : '💿'}</Text>;
+  return <Text style={{ color, fontSize: 24 }}>{name === 'person' ? '👤' : name === 'disc' ? '💿' : '🎧'}</Text>;
 };
 
 const Dashboard = () => {
@@ -39,6 +40,9 @@ const Dashboard = () => {
       </Tab.Screen>
       <Tab.Screen name="Album">
         {() => <AlbumsPage timeRange={timeRange} setTimeRange={setTimeRange} />}
+      </Tab.Screen>
+      <Tab.Screen name="Generi">
+        {() => <GenresPage timeRange={timeRange} setTimeRange={setTimeRange} />}
       </Tab.Screen>
     </Tab.Navigator>
   );
