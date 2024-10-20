@@ -1,92 +1,59 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, Dimensions } from 'react-native';
+import { View, Text, Image, StyleSheet } from 'react-native';
+import { theme } from '../styles/theme';
 
-// Ottiene la larghezza dello schermo e calcola la larghezza della card
-const { width } = Dimensions.get('window');
-const cardWidth = width / 2 - 30; // 2 card per riga con un po' di margine
-
-interface CardProps {
+interface ArtistCardProps {
   title: string;
   imageUrl: string | null;
   rank: number;
+  width: number;
 }
 
-const ArtistCard: React.FC<CardProps> = ({ title, imageUrl, rank }) => {
+const ArtistCard: React.FC<ArtistCardProps> = ({ title, imageUrl, rank, width }) => {
   return (
-    <View style={[styles.card, { width: cardWidth }]}>
+    <View style={[styles.container, { width }]}>
+      <Image source={{ uri: imageUrl || undefined }} style={[styles.image, { width: width - 10, height: width - 10 }]} />
+      <Text numberOfLines={1} style={styles.title}>{title}</Text>
       <View style={styles.rankContainer}>
-        <Text style={styles.rankText}>{rank}</Text>
-      </View>
-      {imageUrl ? (
-        <Image
-          source={{ uri: imageUrl }}
-          style={styles.image}
-          resizeMode="cover"
-        />
-      ) : (
-        <View style={[styles.image, styles.placeholderImage]}>
-          <Text style={styles.placeholderText}>{title[0]}</Text>
-        </View>
-      )}
-      <View style={styles.titleContainer}>
-        <Text style={styles.cardTitle} numberOfLines={2} ellipsizeMode="tail">{title}</Text>
+        <Text style={styles.rank}>{rank}</Text>
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  card: {
-    backgroundColor: 'white',
-    borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-    marginBottom: 20,
-    overflow: 'hidden',
+  container: {
+    backgroundColor: theme.colors.card,
+    borderRadius: 8,
+    padding: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   image: {
-    width: '100%',
-    height: cardWidth, // Immagine quadrata
+    borderRadius: 4,
+    marginBottom: 5,
   },
-  titleContainer: {
-    padding: 10,
-  },
-  cardTitle: {
-    fontSize: 14,
+  title: {
+    fontSize: theme.fontSizes.small,
     fontWeight: 'bold',
-    color: 'black',
+    color: theme.colors.text,
     textAlign: 'center',
-    fontFamily: 'sans-serif',
-  },
-  placeholderImage: {
-    backgroundColor: '#1DB954',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  placeholderText: {
-    color: 'white',
-    fontSize: 30,
-    fontWeight: 'bold',
   },
   rankContainer: {
     position: 'absolute',
-    top: 5,
-    left: 5,
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
-    borderRadius: 15,
-    width: 30,
-    height: 30,
+    top: 2,
+    left: 2,
+    backgroundColor: theme.colors.primary,
+    borderRadius: 10,
+    width: 20,
+    height: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 1,
   },
-  rankText: {
-    color: 'white',
-    fontSize: 16,
+  rank: {
+    color: theme.colors.text,
     fontWeight: 'bold',
+    fontSize: theme.fontSizes.small,
   },
 });
 

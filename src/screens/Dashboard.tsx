@@ -20,7 +20,7 @@ const Dashboard = () => {
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color }) => {
-          let iconName = route.name === 'Artisti' ? 'person' : 'disc';
+          let iconName = route.name === 'Artisti' ? 'person' : route.name == 'Album' ? 'disc' : 'music';
           return <IconComponent name={iconName} color={color} />;
         },
         tabBarActiveTintColor: theme.colors.primary,
